@@ -1,0 +1,532 @@
+[
+    {
+        "id": "8021de0e.75109",
+        "type": "ParticleSSE in",
+        "z": "5f5d85d9.0b5ed4",
+        "baseurl": "403a19b8.8d2bb8",
+        "evtname": "rfid_tag_check_in",
+        "devid": "34003f000547363339343638",
+        "consolelog": false,
+        "x": 300,
+        "y": 240,
+        "wires": [
+            [
+                "7eaca8a0.8f814"
+            ]
+        ]
+    },
+    {
+        "id": "593203e3.2d1604",
+        "type": "http request",
+        "z": "5f5d85d9.0b5ed4",
+        "name": "Incoming RFID Tags",
+        "method": "POST",
+        "ret": "txt",
+        "url": "http://ec2-52-90-6-153.compute-1.amazonaws.com:1880/v1/incomingrfidtags",
+        "tls": "",
+        "x": 960,
+        "y": 240,
+        "wires": [
+            [
+                "1009eddd.b5f89a"
+            ]
+        ]
+    },
+    {
+        "id": "7eaca8a0.8f814",
+        "type": "function",
+        "z": "5f5d85d9.0b5ed4",
+        "name": "Create JSON topic",
+        "func": "msg.payload = {\"rfid_tag\": msg.payload};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 670,
+        "y": 240,
+        "wires": [
+            [
+                "593203e3.2d1604",
+                "1900007c.320eb"
+            ]
+        ]
+    },
+    {
+        "id": "1900007c.320eb",
+        "type": "debug",
+        "z": "5f5d85d9.0b5ed4",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 870,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "e9280a26.cca2e8",
+        "type": "ParticleSSE in",
+        "z": "5f5d85d9.0b5ed4",
+        "baseurl": "403a19b8.8d2bb8",
+        "evtname": "rfid_tag_check_out",
+        "devid": "34003f000547363339343638",
+        "consolelog": false,
+        "x": 310,
+        "y": 480,
+        "wires": [
+            [
+                "8f3c972c.1d11c8"
+            ]
+        ]
+    },
+    {
+        "id": "6268751b.156114",
+        "type": "http request",
+        "z": "5f5d85d9.0b5ed4",
+        "name": "Outgoing RFID Tags",
+        "method": "POST",
+        "ret": "txt",
+        "url": "http://ec2-52-90-6-153.compute-1.amazonaws.com:1880/v1/outgoingrfidtags",
+        "tls": "",
+        "x": 960,
+        "y": 480,
+        "wires": [
+            [
+                "3693b6f4.3ef04a"
+            ]
+        ]
+    },
+    {
+        "id": "8f3c972c.1d11c8",
+        "type": "function",
+        "z": "5f5d85d9.0b5ed4",
+        "name": "Create JSON topic",
+        "func": "msg.payload = {\"rfid_tag\": msg.payload};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 670,
+        "y": 480,
+        "wires": [
+            [
+                "6268751b.156114",
+                "99259746.22d19"
+            ]
+        ]
+    },
+    {
+        "id": "99259746.22d19",
+        "type": "debug",
+        "z": "5f5d85d9.0b5ed4",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 870,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "730c7562.b70e14",
+        "type": "ui_button",
+        "z": "5f5d85d9.0b5ed4",
+        "name": "rfid_tag: 2089f91a",
+        "group": "e70e3dee.c4d74",
+        "order": 2,
+        "width": "4",
+        "height": "1",
+        "passthru": false,
+        "label": "rfid_tag: 2089f91a",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 210,
+        "y": 160,
+        "wires": [
+            [
+                "4736f162.2c3a"
+            ]
+        ]
+    },
+    {
+        "id": "4736f162.2c3a",
+        "type": "function",
+        "z": "5f5d85d9.0b5ed4",
+        "name": "rfid_tag: 2089f91a",
+        "func": "msg.payload = \"2089f91a\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 410,
+        "y": 160,
+        "wires": [
+            [
+                "7eaca8a0.8f814"
+            ]
+        ]
+    },
+    {
+        "id": "812c9be8.c90468",
+        "type": "function",
+        "z": "5f5d85d9.0b5ed4",
+        "name": "rfid_tag: 3d32ea52",
+        "func": "msg.payload = \"3d32ea52\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 410,
+        "y": 440,
+        "wires": [
+            [
+                "8f3c972c.1d11c8"
+            ]
+        ]
+    },
+    {
+        "id": "6a71e2fc.09a5ac",
+        "type": "ui_button",
+        "z": "5f5d85d9.0b5ed4",
+        "name": "rfid_tag: 3d32ea52",
+        "group": "4b3b4758.c5661",
+        "order": 3,
+        "width": "4",
+        "height": "1",
+        "passthru": false,
+        "label": "rfid_tag: 3d32ea52",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 210,
+        "y": 440,
+        "wires": [
+            [
+                "812c9be8.c90468"
+            ]
+        ]
+    },
+    {
+        "id": "c6266fa4.518118",
+        "type": "function",
+        "z": "5f5d85d9.0b5ed4",
+        "name": "rfid_tag: 2089f91a",
+        "func": "msg.payload = \"2089f91a\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 410,
+        "y": 400,
+        "wires": [
+            [
+                "8f3c972c.1d11c8"
+            ]
+        ]
+    },
+    {
+        "id": "229b0f6a.3efbf",
+        "type": "ui_button",
+        "z": "5f5d85d9.0b5ed4",
+        "name": "rfid_tag: 2089f91a",
+        "group": "4b3b4758.c5661",
+        "order": 2,
+        "width": "4",
+        "height": "1",
+        "passthru": false,
+        "label": "rfid_tag: 2089f91a",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 210,
+        "y": 400,
+        "wires": [
+            [
+                "c6266fa4.518118"
+            ]
+        ]
+    },
+    {
+        "id": "c0f73cc9.ec156",
+        "type": "function",
+        "z": "5f5d85d9.0b5ed4",
+        "name": "rfid_tag: 3d32ea52",
+        "func": "msg.payload = \"3d32ea52\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 410,
+        "y": 200,
+        "wires": [
+            [
+                "7eaca8a0.8f814"
+            ]
+        ]
+    },
+    {
+        "id": "51a5583e.60ae38",
+        "type": "ui_button",
+        "z": "5f5d85d9.0b5ed4",
+        "name": "rfid_tag: 3d32ea52",
+        "group": "e70e3dee.c4d74",
+        "order": 3,
+        "width": "4",
+        "height": "1",
+        "passthru": false,
+        "label": "rfid_tag: 3d32ea52",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 210,
+        "y": 200,
+        "wires": [
+            [
+                "c0f73cc9.ec156"
+            ]
+        ]
+    },
+    {
+        "id": "738ca0fb.259d6",
+        "type": "ui_button",
+        "z": "5f5d85d9.0b5ed4",
+        "name": "",
+        "group": "e70e3dee.c4d74",
+        "order": 4,
+        "width": "4",
+        "height": "1",
+        "passthru": false,
+        "label": "Delete all ",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 180,
+        "y": 120,
+        "wires": [
+            [
+                "180fb076.38bde8"
+            ]
+        ]
+    },
+    {
+        "id": "180fb076.38bde8",
+        "type": "http request",
+        "z": "5f5d85d9.0b5ed4",
+        "name": "Delete incoming tags from db",
+        "method": "DELETE",
+        "ret": "txt",
+        "url": "http://ec2-52-90-6-153.compute-1.amazonaws.com:1880/v1/incomingrfidtags",
+        "tls": "",
+        "x": 930,
+        "y": 120,
+        "wires": [
+            [
+                "1009eddd.b5f89a"
+            ]
+        ]
+    },
+    {
+        "id": "d2366d4.dcf5b9",
+        "type": "ui_button",
+        "z": "5f5d85d9.0b5ed4",
+        "name": "",
+        "group": "4b3b4758.c5661",
+        "order": 4,
+        "width": "4",
+        "height": "1",
+        "passthru": false,
+        "label": "Delete all ",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 180,
+        "y": 360,
+        "wires": [
+            [
+                "f974c37c.83ca78"
+            ]
+        ]
+    },
+    {
+        "id": "f974c37c.83ca78",
+        "type": "http request",
+        "z": "5f5d85d9.0b5ed4",
+        "name": "Delete outgoing tags from db",
+        "method": "DELETE",
+        "ret": "txt",
+        "url": "http://ec2-52-90-6-153.compute-1.amazonaws.com:1880/v1/outgoingrfidtags",
+        "tls": "",
+        "x": 940,
+        "y": 360,
+        "wires": [
+            [
+                "3693b6f4.3ef04a"
+            ]
+        ]
+    },
+    {
+        "id": "1009eddd.b5f89a",
+        "type": "ui_text",
+        "z": "5f5d85d9.0b5ed4",
+        "group": "e70e3dee.c4d74",
+        "order": 5,
+        "width": "22",
+        "height": "4",
+        "name": "",
+        "label": "Message:",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "x": 1180,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "3693b6f4.3ef04a",
+        "type": "ui_text",
+        "z": "5f5d85d9.0b5ed4",
+        "group": "4b3b4758.c5661",
+        "order": 5,
+        "width": "24",
+        "height": "4",
+        "name": "",
+        "label": "Message:",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "x": 1180,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "201e1282.9865fe",
+        "type": "ui_button",
+        "z": "5f5d85d9.0b5ed4",
+        "name": "",
+        "group": "e70e3dee.c4d74",
+        "order": 1,
+        "width": "4",
+        "height": "1",
+        "passthru": false,
+        "label": "Get all",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 170,
+        "y": 80,
+        "wires": [
+            [
+                "7b35314f.3a9d5"
+            ]
+        ]
+    },
+    {
+        "id": "7b35314f.3a9d5",
+        "type": "http request",
+        "z": "5f5d85d9.0b5ed4",
+        "name": "Get incoming tags from db",
+        "method": "GET",
+        "ret": "txt",
+        "url": "http://ec2-52-90-6-153.compute-1.amazonaws.com:1880/v1/incomingrfidtags",
+        "tls": "",
+        "x": 930,
+        "y": 80,
+        "wires": [
+            [
+                "1009eddd.b5f89a"
+            ]
+        ]
+    },
+    {
+        "id": "c8a23385.aadfc",
+        "type": "http request",
+        "z": "5f5d85d9.0b5ed4",
+        "name": "Get outgoing tags from db",
+        "method": "GET",
+        "ret": "txt",
+        "url": "http://ec2-52-90-6-153.compute-1.amazonaws.com:1880/v1/outgoingrfidtags",
+        "tls": "",
+        "x": 930,
+        "y": 320,
+        "wires": [
+            [
+                "3693b6f4.3ef04a"
+            ]
+        ]
+    },
+    {
+        "id": "fabbb2e0.1a85b",
+        "type": "ui_button",
+        "z": "5f5d85d9.0b5ed4",
+        "name": "",
+        "group": "4b3b4758.c5661",
+        "order": 1,
+        "width": "4",
+        "height": "1",
+        "passthru": false,
+        "label": "Get all",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 170,
+        "y": 320,
+        "wires": [
+            [
+                "c8a23385.aadfc"
+            ]
+        ]
+    },
+    {
+        "id": "403a19b8.8d2bb8",
+        "type": "particle-cloud",
+        "z": "",
+        "host": "https://api.particle.io",
+        "port": "443",
+        "accesstoken": "13ea8a04cfe173d6ba6449c4d6075e7eee72bed2",
+        "name": ""
+    },
+    {
+        "id": "e70e3dee.c4d74",
+        "type": "ui_group",
+        "z": "",
+        "name": "Check in",
+        "tab": "1b3e391e.94af97",
+        "order": 2,
+        "disp": true,
+        "width": "24",
+        "collapse": true
+    },
+    {
+        "id": "4b3b4758.c5661",
+        "type": "ui_group",
+        "z": "",
+        "name": "Check out",
+        "tab": "1b3e391e.94af97",
+        "order": 3,
+        "disp": true,
+        "width": "24",
+        "collapse": true
+    },
+    {
+        "id": "1b3e391e.94af97",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Home",
+        "icon": "dashboard"
+    }
+]

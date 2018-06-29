@@ -1,0 +1,971 @@
+[
+    {
+        "id": "24de6f1c.ec79a8",
+        "type": "ui_button",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "group": "63d34f49.3e715",
+        "order": 3,
+        "width": "4",
+        "height": "1",
+        "passthru": false,
+        "label": "Delete all items",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 160,
+        "y": 100,
+        "wires": [
+            [
+                "fa54181f.707f58"
+            ]
+        ]
+    },
+    {
+        "id": "fa54181f.707f58",
+        "type": "http request",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "method": "DELETE",
+        "ret": "txt",
+        "url": "http://ec2-52-90-6-153.compute-1.amazonaws.com:1880/v1/items",
+        "tls": "",
+        "x": 790,
+        "y": 100,
+        "wires": [
+            [
+                "b1de7a26.27a35"
+            ]
+        ]
+    },
+    {
+        "id": "4a0120a5.26dab8",
+        "type": "http request",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "url": "http://ec2-52-90-6-153.compute-1.amazonaws.com:1880/v1/items",
+        "tls": "",
+        "x": 790,
+        "y": 140,
+        "wires": [
+            [
+                "b1de7a26.27a35"
+            ]
+        ]
+    },
+    {
+        "id": "9e65df82.416ba8",
+        "type": "ui_button",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "group": "63d34f49.3e715",
+        "order": 2,
+        "width": "6",
+        "height": "1",
+        "passthru": false,
+        "label": "Add a sample item - PowerDrill",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 210,
+        "y": 140,
+        "wires": [
+            [
+                "8f65a57c.efabd"
+            ]
+        ]
+    },
+    {
+        "id": "8f65a57c.efabd",
+        "type": "function",
+        "z": "afcf7e95.c084d8",
+        "name": "Create the JSON topic",
+        "func": "msg.payload = {\"item_name\":\"PowerDrill\", \"item_description\":\"Power Drill V18\", \"item_image_url\":\"https://images.homedepot-static.com/productImages/1f89a066-4101-4ade-b0c9-40f55ea30692/svn/ryobi-power-drills-p1810-64_1000.jpg\"};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 460,
+        "y": 140,
+        "wires": [
+            [
+                "d969ba9e.90bf9"
+            ]
+        ]
+    },
+    {
+        "id": "178a202e.77824",
+        "type": "ui_button",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "group": "63d34f49.3e715",
+        "order": 1,
+        "width": "4",
+        "height": "1",
+        "passthru": false,
+        "label": "Get all items",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 150,
+        "y": 60,
+        "wires": [
+            [
+                "9bee1d4c.a5b2c8"
+            ]
+        ]
+    },
+    {
+        "id": "9bee1d4c.a5b2c8",
+        "type": "http request",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "url": "http://ec2-52-90-6-153.compute-1.amazonaws.com:1880/v1/items",
+        "tls": "",
+        "x": 790,
+        "y": 60,
+        "wires": [
+            [
+                "b1de7a26.27a35"
+            ]
+        ]
+    },
+    {
+        "id": "39128ba2.3282bc",
+        "type": "ui_button",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "group": "aecf3df8.354fc8",
+        "order": 2,
+        "width": "4",
+        "height": "1",
+        "passthru": false,
+        "label": "Delete all tags",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 160,
+        "y": 280,
+        "wires": [
+            [
+                "9020cd90.6780e8"
+            ]
+        ]
+    },
+    {
+        "id": "9020cd90.6780e8",
+        "type": "http request",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "method": "DELETE",
+        "ret": "txt",
+        "url": "http://ec2-52-90-6-153.compute-1.amazonaws.com:1880/v1/tags",
+        "tls": "",
+        "x": 790,
+        "y": 280,
+        "wires": [
+            [
+                "c11e647a.2a23d8"
+            ]
+        ]
+    },
+    {
+        "id": "678dc338.53a664",
+        "type": "ui_button",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "group": "aecf3df8.354fc8",
+        "order": 1,
+        "width": "4",
+        "height": "1",
+        "passthru": false,
+        "label": "Get all tags",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 150,
+        "y": 240,
+        "wires": [
+            [
+                "b08e6947.ad5a3"
+            ]
+        ]
+    },
+    {
+        "id": "b08e6947.ad5a3",
+        "type": "http request",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "url": "http://ec2-52-90-6-153.compute-1.amazonaws.com:1880/v1/tags",
+        "tls": "",
+        "x": 790,
+        "y": 240,
+        "wires": [
+            [
+                "c11e647a.2a23d8"
+            ]
+        ]
+    },
+    {
+        "id": "7a5aa3d9.3cf63c",
+        "type": "ui_button",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "group": "87823d42.85792",
+        "order": 3,
+        "width": "6",
+        "height": "1",
+        "passthru": false,
+        "label": "Checkin (return) a sample item",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 210,
+        "y": 660,
+        "wires": [
+            [
+                "703c0235.e58d94"
+            ]
+        ]
+    },
+    {
+        "id": "703c0235.e58d94",
+        "type": "function",
+        "z": "afcf7e95.c084d8",
+        "name": "Create the JSON topic",
+        "func": "msg.payload = {\"student_id\": \"903152252\"};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 480,
+        "y": 660,
+        "wires": [
+            [
+                "9cdf9d2.a5b7de"
+            ]
+        ]
+    },
+    {
+        "id": "9cdf9d2.a5b7de",
+        "type": "json",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 650,
+        "y": 660,
+        "wires": [
+            [
+                "ad1a1bf9.c5b"
+            ]
+        ]
+    },
+    {
+        "id": "ad1a1bf9.c5b",
+        "type": "http request",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "url": "http://ec2-52-90-6-153.compute-1.amazonaws.com:1880/v1/studentinventories/checkin",
+        "tls": "",
+        "x": 790,
+        "y": 660,
+        "wires": [
+            [
+                "5f675c5c.1b9954"
+            ]
+        ]
+    },
+    {
+        "id": "40c3d99e.712ae",
+        "type": "http request",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "url": "http://ec2-52-90-6-153.compute-1.amazonaws.com:1880/v1/studentinventories",
+        "tls": "",
+        "x": 790,
+        "y": 580,
+        "wires": [
+            [
+                "5f675c5c.1b9954"
+            ]
+        ]
+    },
+    {
+        "id": "961d1ce0.7994a",
+        "type": "ui_button",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "group": "87823d42.85792",
+        "order": 1,
+        "width": "6",
+        "height": "1",
+        "passthru": false,
+        "label": "Get all student inventories",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 190,
+        "y": 580,
+        "wires": [
+            [
+                "40c3d99e.712ae"
+            ]
+        ]
+    },
+    {
+        "id": "64eae1b8.eb60a8",
+        "type": "ui_button",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "group": "90ae88b3.8d3688",
+        "order": 2,
+        "width": "6",
+        "height": "1",
+        "passthru": false,
+        "label": "Add a sample inventory - PowerDrill",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 220,
+        "y": 420,
+        "wires": [
+            [
+                "6cf5e7f3.a62e58"
+            ]
+        ]
+    },
+    {
+        "id": "6cf5e7f3.a62e58",
+        "type": "function",
+        "z": "afcf7e95.c084d8",
+        "name": "Create the JSON topic",
+        "func": "msg.payload = {\"item_name\": \"PowerDrill\"};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 480,
+        "y": 420,
+        "wires": [
+            [
+                "ebcc550c.6d017"
+            ]
+        ]
+    },
+    {
+        "id": "ebcc550c.6d017",
+        "type": "json",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 650,
+        "y": 420,
+        "wires": [
+            [
+                "81c4d1fb.1963a"
+            ]
+        ]
+    },
+    {
+        "id": "81c4d1fb.1963a",
+        "type": "http request",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "url": "http://ec2-52-90-6-153.compute-1.amazonaws.com:1880/v1/inventories",
+        "tls": "",
+        "x": 790,
+        "y": 420,
+        "wires": [
+            [
+                "734ce1cf.9a173"
+            ]
+        ]
+    },
+    {
+        "id": "1c73e2ab.ef412d",
+        "type": "ui_button",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "group": "90ae88b3.8d3688",
+        "order": 1,
+        "width": "4",
+        "height": "1",
+        "passthru": false,
+        "label": "Get all inventories",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 170,
+        "y": 340,
+        "wires": [
+            [
+                "68049874.96926"
+            ]
+        ]
+    },
+    {
+        "id": "68049874.96926",
+        "type": "http request",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "url": "http://ec2-52-90-6-153.compute-1.amazonaws.com:1880/v1/inventories",
+        "tls": "",
+        "x": 790,
+        "y": 340,
+        "wires": [
+            [
+                "734ce1cf.9a173"
+            ]
+        ]
+    },
+    {
+        "id": "b1de7a26.27a35",
+        "type": "ui_text",
+        "z": "afcf7e95.c084d8",
+        "group": "63d34f49.3e715",
+        "order": 4,
+        "width": "24",
+        "height": "4",
+        "name": "",
+        "label": "Message:",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "x": 1020,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "c3db74a9.2dbb6",
+        "type": "ui_button",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "group": "90ae88b3.8d3688",
+        "order": 4,
+        "width": "4",
+        "height": "1",
+        "passthru": false,
+        "label": "Delete all inventories",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 180,
+        "y": 380,
+        "wires": [
+            [
+                "eec937bd.d0e13"
+            ]
+        ]
+    },
+    {
+        "id": "eec937bd.d0e13",
+        "type": "http request",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "method": "DELETE",
+        "ret": "txt",
+        "url": "http://ec2-52-90-6-153.compute-1.amazonaws.com:1880/v1/inventories",
+        "tls": "",
+        "x": 790,
+        "y": 380,
+        "wires": [
+            [
+                "734ce1cf.9a173"
+            ]
+        ]
+    },
+    {
+        "id": "e0758fbb.4c7698",
+        "type": "ui_button",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "group": "87823d42.85792",
+        "order": 4,
+        "width": "6",
+        "height": "1",
+        "passthru": false,
+        "label": "Delete all student inventories",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 200,
+        "y": 620,
+        "wires": [
+            [
+                "eb86f28.aa7011"
+            ]
+        ]
+    },
+    {
+        "id": "eb86f28.aa7011",
+        "type": "http request",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "method": "DELETE",
+        "ret": "txt",
+        "url": "http://ec2-52-90-6-153.compute-1.amazonaws.com:1880/v1/studentinventories",
+        "tls": "",
+        "x": 790,
+        "y": 620,
+        "wires": [
+            [
+                "5f675c5c.1b9954"
+            ]
+        ]
+    },
+    {
+        "id": "509f90d3.e69558",
+        "type": "ui_button",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "group": "90ae88b3.8d3688",
+        "order": 3,
+        "width": "4",
+        "height": "1",
+        "passthru": false,
+        "label": "Delete a sample inventory",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 190,
+        "y": 500,
+        "wires": [
+            [
+                "b62d3cb3.740c"
+            ]
+        ]
+    },
+    {
+        "id": "b62d3cb3.740c",
+        "type": "function",
+        "z": "afcf7e95.c084d8",
+        "name": "Create the JSON topic",
+        "func": "msg.payload = { \"item_name\": \"powerdrill\"};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 480,
+        "y": 500,
+        "wires": [
+            [
+                "ddcf63d0.1baf58"
+            ]
+        ]
+    },
+    {
+        "id": "ddcf63d0.1baf58",
+        "type": "json",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 650,
+        "y": 500,
+        "wires": [
+            [
+                "9fd40c2d.d3b8f"
+            ]
+        ]
+    },
+    {
+        "id": "9fd40c2d.d3b8f",
+        "type": "http request",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "url": "http://ec2-52-90-6-153.compute-1.amazonaws.com:1880/v1/inventories",
+        "tls": "",
+        "x": 790,
+        "y": 500,
+        "wires": [
+            [
+                "734ce1cf.9a173"
+            ]
+        ]
+    },
+    {
+        "id": "d969ba9e.90bf9",
+        "type": "json",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 630,
+        "y": 140,
+        "wires": [
+            [
+                "4a0120a5.26dab8"
+            ]
+        ]
+    },
+    {
+        "id": "c11e647a.2a23d8",
+        "type": "ui_text",
+        "z": "afcf7e95.c084d8",
+        "group": "aecf3df8.354fc8",
+        "order": 3,
+        "width": "24",
+        "height": "4",
+        "name": "",
+        "label": "Message:",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "x": 1020,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "5f675c5c.1b9954",
+        "type": "ui_text",
+        "z": "afcf7e95.c084d8",
+        "group": "87823d42.85792",
+        "order": 5,
+        "width": "24",
+        "height": "10",
+        "name": "",
+        "label": "Message:",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "x": 1020,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "734ce1cf.9a173",
+        "type": "ui_text",
+        "z": "afcf7e95.c084d8",
+        "group": "90ae88b3.8d3688",
+        "order": 5,
+        "width": "24",
+        "height": "4",
+        "name": "",
+        "label": "Message:",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "x": 1020,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "c8e3a872.af1f78",
+        "type": "ui_button",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "group": "87823d42.85792",
+        "order": 2,
+        "width": "6",
+        "height": "1",
+        "passthru": false,
+        "label": "Checkout a sample item",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 190,
+        "y": 700,
+        "wires": [
+            [
+                "eda34d61.1bd37"
+            ]
+        ]
+    },
+    {
+        "id": "eda34d61.1bd37",
+        "type": "function",
+        "z": "afcf7e95.c084d8",
+        "name": "Create the JSON topic",
+        "func": "msg.payload = {\"student_id\": \"903152252\"};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 480,
+        "y": 700,
+        "wires": [
+            [
+                "464aca00.43da18"
+            ]
+        ]
+    },
+    {
+        "id": "464aca00.43da18",
+        "type": "json",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 650,
+        "y": 700,
+        "wires": [
+            [
+                "9df02f54.e0f13"
+            ]
+        ]
+    },
+    {
+        "id": "9df02f54.e0f13",
+        "type": "http request",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "url": "http://ec2-52-90-6-153.compute-1.amazonaws.com:1880/v1/studentinventories/checkout",
+        "tls": "",
+        "x": 790,
+        "y": 700,
+        "wires": [
+            [
+                "5f675c5c.1b9954"
+            ]
+        ]
+    },
+    {
+        "id": "f4a78af0.ee5f68",
+        "type": "ui_button",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "group": "63d34f49.3e715",
+        "order": 2,
+        "width": "6",
+        "height": "1",
+        "passthru": false,
+        "label": "Add a sample item - AirPump",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 200,
+        "y": 180,
+        "wires": [
+            [
+                "8f314363.9d731"
+            ]
+        ]
+    },
+    {
+        "id": "787a9676.3c72b8",
+        "type": "http request",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "url": "http://ec2-52-90-6-153.compute-1.amazonaws.com:1880/v1/items",
+        "tls": "",
+        "x": 790,
+        "y": 180,
+        "wires": [
+            [
+                "b1de7a26.27a35"
+            ]
+        ]
+    },
+    {
+        "id": "8f314363.9d731",
+        "type": "function",
+        "z": "afcf7e95.c084d8",
+        "name": "Create the JSON topic",
+        "func": "msg.payload = {\"item_name\":\"AirPump\", \"item_description\":\"Compressed Air Tank, Stainless Steel, 16 Bar\", \"item_image_url\":\"https://thumbs.ebaystatic.com/d/l225/pict/222863234088_1.jpg\"};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 460,
+        "y": 180,
+        "wires": [
+            [
+                "61ed62e.909939c"
+            ]
+        ]
+    },
+    {
+        "id": "61ed62e.909939c",
+        "type": "json",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 630,
+        "y": 180,
+        "wires": [
+            [
+                "787a9676.3c72b8"
+            ]
+        ]
+    },
+    {
+        "id": "80f78dac.c35c",
+        "type": "ui_button",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "group": "90ae88b3.8d3688",
+        "order": 2,
+        "width": "6",
+        "height": "1",
+        "passthru": false,
+        "label": "Add a sample inventory - AirPump",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 220,
+        "y": 460,
+        "wires": [
+            [
+                "608a1205.1d1ccc"
+            ]
+        ]
+    },
+    {
+        "id": "608a1205.1d1ccc",
+        "type": "function",
+        "z": "afcf7e95.c084d8",
+        "name": "Create the JSON topic",
+        "func": "msg.payload = {\"item_name\": \"AirPump\"};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 480,
+        "y": 460,
+        "wires": [
+            [
+                "cfe3ee93.1ab35"
+            ]
+        ]
+    },
+    {
+        "id": "cfe3ee93.1ab35",
+        "type": "json",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 650,
+        "y": 460,
+        "wires": [
+            [
+                "d85e4926.161158"
+            ]
+        ]
+    },
+    {
+        "id": "d85e4926.161158",
+        "type": "http request",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "url": "http://ec2-52-90-6-153.compute-1.amazonaws.com:1880/v1/inventories",
+        "tls": "",
+        "x": 790,
+        "y": 460,
+        "wires": [
+            [
+                "734ce1cf.9a173"
+            ]
+        ]
+    },
+    {
+        "id": "63d34f49.3e715",
+        "type": "ui_group",
+        "z": "",
+        "name": "Items",
+        "tab": "1b3e391e.94af97",
+        "order": 1,
+        "disp": true,
+        "width": "24",
+        "collapse": true
+    },
+    {
+        "id": "aecf3df8.354fc8",
+        "type": "ui_group",
+        "z": "",
+        "name": "Tags",
+        "tab": "1b3e391e.94af97",
+        "order": 6,
+        "disp": true,
+        "width": "24",
+        "collapse": true
+    },
+    {
+        "id": "87823d42.85792",
+        "type": "ui_group",
+        "z": "",
+        "name": "Student Inventories",
+        "tab": "1b3e391e.94af97",
+        "order": 5,
+        "disp": true,
+        "width": "24",
+        "collapse": true
+    },
+    {
+        "id": "90ae88b3.8d3688",
+        "type": "ui_group",
+        "z": "",
+        "name": "Inventories",
+        "tab": "1b3e391e.94af97",
+        "order": 4,
+        "disp": true,
+        "width": "24",
+        "collapse": true
+    },
+    {
+        "id": "1b3e391e.94af97",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Home",
+        "icon": "dashboard"
+    }
+]

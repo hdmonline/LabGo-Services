@@ -1,12 +1,5 @@
 [
     {
-        "id": "785d78a8.5f798",
-        "type": "tab",
-        "label": "REST API",
-        "disabled": false,
-        "info": ""
-    },
-    {
         "id": "958cf14.1c2a71",
         "type": "http in",
         "z": "785d78a8.5f798",
@@ -45,7 +38,7 @@
         "func": "msg.topic = \"SELECT * FROM item LIMIT 1000\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 1130,
+        "x": 1140,
         "y": 60,
         "wires": [
             [
@@ -123,7 +116,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 110,
-        "y": 280,
+        "y": 260,
         "wires": [
             [
                 "e842390b.71ebd"
@@ -135,46 +128,15 @@
         "type": "function",
         "z": "785d78a8.5f798",
         "name": "Get the list of the items",
-        "func": "msg.topic = \"SELECT * FROM rfid_tag LIMIT 1000\";\nreturn msg;",
+        "func": "msg.topic = \"SELECT * FROM `rfid_tag` LIMIT 1000\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 1130,
-        "y": 280,
+        "x": 1140,
+        "y": 260,
         "wires": [
             [
                 "d7ae720c.a33f2"
             ]
-        ]
-    },
-    {
-        "id": "df75e8f6.e0c8c8",
-        "type": "http in",
-        "z": "785d78a8.5f798",
-        "name": "",
-        "url": "/v1/tags",
-        "method": "post",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 110,
-        "y": 400,
-        "wires": [
-            [
-                "d611819f.356f18"
-            ]
-        ]
-    },
-    {
-        "id": "d611819f.356f18",
-        "type": "function",
-        "z": "785d78a8.5f798",
-        "name": "Add an item by its tag",
-        "func": "msg.topic = \"INSERT IGNORE INTO `rfid_tag` (`item_id`, `rfid_tag`) VALUES ((SELECT item_id from item WHERE item_name='\" + msg.payload.item_name + \"'), '\" + msg.payload.rfid_tag + \"')\"\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 1140,
-        "y": 400,
-        "wires": [
-            []
         ]
     },
     {
@@ -186,7 +148,7 @@
         "outputs": 1,
         "noerr": 0,
         "x": 1170,
-        "y": 320,
+        "y": 300,
         "wires": [
             [
                 "d7ae720c.a33f2"
@@ -203,7 +165,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 120,
-        "y": 320,
+        "y": 300,
         "wires": [
             [
                 "17d201ce.007aee"
@@ -287,7 +249,7 @@
         "syntax": "mustache",
         "template": "{{req.params.item_name}}",
         "output": "str",
-        "x": 500,
+        "x": 520,
         "y": 140,
         "wires": [
             [
@@ -304,7 +266,7 @@
         "outputs": 1,
         "noerr": 0,
         "x": 1130,
-        "y": 360,
+        "y": 340,
         "wires": [
             [
                 "d7ae720c.a33f2"
@@ -323,7 +285,7 @@
         "template": "{{req.params.rfid_tag}}",
         "output": "str",
         "x": 500,
-        "y": 360,
+        "y": 340,
         "wires": [
             [
                 "55ec6305.f455f4"
@@ -340,7 +302,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 150,
-        "y": 360,
+        "y": 340,
         "wires": [
             [
                 "71783ba2.ad1cc4"
@@ -357,7 +319,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 130,
-        "y": 480,
+        "y": 720,
         "wires": [
             [
                 "4c4d7ee8.66ad9"
@@ -373,7 +335,7 @@
         "outputs": 1,
         "noerr": 0,
         "x": 1080,
-        "y": 480,
+        "y": 720,
         "wires": [
             [
                 "d7ae720c.a33f2"
@@ -390,10 +352,10 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 140,
-        "y": 600,
+        "y": 840,
         "wires": [
             [
-                "e353359a.c91f28"
+                "8edfd201.d00eb"
             ]
         ]
     },
@@ -401,15 +363,16 @@
         "id": "e353359a.c91f28",
         "type": "function",
         "z": "785d78a8.5f798",
-        "name": "Add an item to inventory by its tag and name",
-        "func": "msg.topic = \"INSERT IGNORE INTO `rfid_tag` (`item_id`, `rfid_tag`) VALUES ((SELECT item_id from item WHERE item_name='\" + msg.payload.item_name + \"'), '\" + msg.payload.rfid_tag + \"');\";\nmsg.topic += \"INSERT IGNORE INTO `inventory` (`rfid_tag_id`) VALUES ( (SELECT rfid_tag_id from rfid_tag WHERE rfid_tag= '\" + msg.payload.rfid_tag + \"') );\";\nreturn msg;",
+        "name": "Add to inventory by its name and scanned tag",
+        "func": "// retrieve the original requested message\nvar requested_msg = flow.get('last_incoming_rfid_message');\n    \nmsg.topic = \"INSERT IGNORE INTO `rfid_tag` (`item_id`, `rfid_tag`) VALUES ((SELECT item_id from item WHERE item_name='\" + requested_msg.item_name + \"'), '\" + msg.payload[0].rfid_tag + \"');\";\nmsg.topic += \"INSERT IGNORE INTO `inventory` (`rfid_tag_id`) VALUES ( (SELECT rfid_tag_id from rfid_tag WHERE rfid_tag= '\" + msg.payload[0].rfid_tag + \"') );\";\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 1070,
-        "y": 600,
+        "x": 1060,
+        "y": 840,
         "wires": [
             [
-                "d7ae720c.a33f2"
+                "d7ae720c.a33f2",
+                "7b9ec1a2.02e51"
             ]
         ]
     },
@@ -417,14 +380,16 @@
         "id": "a112b087.0d94c8",
         "type": "function",
         "z": "785d78a8.5f798",
-        "name": "Delete tags",
-        "func": "msg.topic = \"DELETE FROM `rfid_tag`;\";\nreturn msg;",
+        "name": "Delete all inventories",
+        "func": "msg.topic = \"DELETE FROM `inventory`;\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 1170,
-        "y": 520,
+        "x": 1140,
+        "y": 760,
         "wires": [
-            []
+            [
+                "d7ae720c.a33f2"
+            ]
         ]
     },
     {
@@ -437,7 +402,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 140,
-        "y": 520,
+        "y": 760,
         "wires": [
             [
                 "a112b087.0d94c8"
@@ -449,13 +414,15 @@
         "type": "function",
         "z": "785d78a8.5f798",
         "name": "Delete an item from inventory with its tag",
-        "func": "msg.topic = \"DELETE FROM `item` WHERE items_item_id ='\" + msg.payload + \"';\";\nreturn msg;",
+        "func": "msg.topic = \"DELETE FROM `inventory` WHERE rfid_tag_id=((SELECT rfid_tag_id from rfid_tag WHERE rfid_tag='\" + msg.payload.rfid_tag + \"'));\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 1080,
-        "y": 560,
+        "y": 800,
         "wires": [
-            []
+            [
+                "d7ae720c.a33f2"
+            ]
         ]
     },
     {
@@ -470,7 +437,7 @@
         "template": "{{req.params.rfid_tag}}",
         "output": "str",
         "x": 500,
-        "y": 560,
+        "y": 800,
         "wires": [
             [
                 "4bd9d4f8.bb0b64"
@@ -487,7 +454,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 170,
-        "y": 560,
+        "y": 800,
         "wires": [
             [
                 "ac4a1d75.ef3a08"
@@ -502,8 +469,8 @@
         "func": "msg.topic = \"SELECT * FROM student_inventory_v_item_v_rfid_tag LIMIT 1000\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 1080,
-        "y": 760,
+        "x": 1090,
+        "y": 940,
         "wires": [
             [
                 "d7ae720c.a33f2"
@@ -520,7 +487,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 150,
-        "y": 760,
+        "y": 940,
         "wires": [
             [
                 "69317562.906b6c"
@@ -537,7 +504,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 190,
-        "y": 800,
+        "y": 980,
         "wires": [
             [
                 "45093792.67d998"
@@ -556,7 +523,7 @@
         "template": "{{req.params.student_id}}",
         "output": "str",
         "x": 500,
-        "y": 800,
+        "y": 980,
         "wires": [
             [
                 "c19a65f1.194c8"
@@ -572,7 +539,7 @@
         "outputs": 1,
         "noerr": 0,
         "x": 1080,
-        "y": 800,
+        "y": 980,
         "wires": [
             [
                 "d7ae720c.a33f2"
@@ -589,7 +556,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 190,
-        "y": 920,
+        "y": 1100,
         "wires": [
             [
                 "bf8e9cdc.c7b5f8"
@@ -606,7 +573,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 160,
-        "y": 840,
+        "y": 1020,
         "wires": [
             [
                 "16ff5433.91c304"
@@ -617,12 +584,12 @@
         "id": "16ff5433.91c304",
         "type": "function",
         "z": "785d78a8.5f798",
-        "name": "Delete tags",
+        "name": "Delete studentinventories",
         "func": "msg.topic = \"DELETE FROM `user_inventory`;\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 1170,
-        "y": 840,
+        "x": 1130,
+        "y": 1020,
         "wires": [
             [
                 "d7ae720c.a33f2"
@@ -639,7 +606,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 200,
-        "y": 880,
+        "y": 1060,
         "wires": [
             [
                 "635e89c6.b89b88"
@@ -658,7 +625,7 @@
         "template": "{{req.params.student_id}}",
         "output": "str",
         "x": 500,
-        "y": 880,
+        "y": 1060,
         "wires": [
             [
                 "6d034855.b8477"
@@ -674,7 +641,7 @@
         "outputs": 1,
         "noerr": 0,
         "x": 1080,
-        "y": 880,
+        "y": 1060,
         "wires": [
             [
                 "d7ae720c.a33f2"
@@ -686,11 +653,11 @@
         "type": "function",
         "z": "785d78a8.5f798",
         "name": "Insert incoming (checking in) rfid tags",
-        "func": "msg.topic = \"INSERT IGNORE INTO `incoming_rfid_tag` (`rfid_tag_id`) VALUES ((SELECT rfid_tag_id from rfid_tag WHERE rfid_tag='\" + msg.payload.rfid_tag + \"'));\"\nreturn msg;",
+        "func": "msg.topic = \"INSERT IGNORE INTO `incoming_rfid_tag` (`rfid_tag`) VALUES ('\" + msg.payload.rfid_tag + \"');\"\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 1090,
-        "y": 660,
+        "y": 460,
         "wires": [
             [
                 "d7ae720c.a33f2"
@@ -706,8 +673,8 @@
         "method": "post",
         "upload": false,
         "swaggerDoc": "",
-        "x": 150,
-        "y": 660,
+        "x": 149,
+        "y": 460,
         "wires": [
             [
                 "541112d.6c8c8ec"
@@ -719,11 +686,11 @@
         "type": "function",
         "z": "785d78a8.5f798",
         "name": "Insert outgoing (checking out) rfid tags",
-        "func": "msg.topic = \"INSERT IGNORE INTO `outgoing_rfid_tag` (`rfid_tag_id`) VALUES ((SELECT rfid_tag_id from rfid_tag WHERE rfid_tag='\" + msg.payload.rfid_tag + \"'));\"\nreturn msg;",
+        "func": "msg.topic = \"INSERT IGNORE INTO `outgoing_rfid_tag` (`rfid_tag`) VALUES ('\" + msg.payload.rfid_tag + \"');\"\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 1090,
-        "y": 700,
+        "x": 1089,
+        "y": 600,
         "wires": [
             [
                 "d7ae720c.a33f2"
@@ -739,11 +706,291 @@
         "method": "post",
         "upload": false,
         "swaggerDoc": "",
-        "x": 150,
-        "y": 700,
+        "x": 149,
+        "y": 600,
         "wires": [
             [
                 "4bd0cd50.a6a9fc"
+            ]
+        ]
+    },
+    {
+        "id": "99c6ec7f.c5e42",
+        "type": "mysql",
+        "z": "785d78a8.5f798",
+        "mydb": "2ccc4c99.d52f64",
+        "name": "Lab Go Database",
+        "x": 730,
+        "y": 1100,
+        "wires": [
+            [
+                "b2fb33d4.1588e8",
+                "38777122.be1766"
+            ]
+        ]
+    },
+    {
+        "id": "bf8e9cdc.c7b5f8",
+        "type": "function",
+        "z": "785d78a8.5f798",
+        "name": "Get all incoming rfid tags",
+        "func": "// first store the message to retrieve it later:\nflow.set('incoming_rfid_message',msg.payload);\n\nmsg.topic = \"SELECT * FROM incoming_rfid_tag;\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 490,
+        "y": 1100,
+        "wires": [
+            [
+                "99c6ec7f.c5e42"
+            ]
+        ]
+    },
+    {
+        "id": "b2fb33d4.1588e8",
+        "type": "function",
+        "z": "785d78a8.5f798",
+        "name": "Add student_id and timestamps",
+        "func": "// retrieve the original requested message\nvar requested_msg = flow.get('incoming_rfid_message');\n    \nfor(var i = 0; i < msg.payload.length; i++)\n{\n    msg.topic += \"UPDATE `user_inventory` SET `checkin_timestamp`= NOW() WHERE `rfid_tag_id`=(SELECT rfid_tag_id from rfid_tag WHERE rfid_tag= '\" + msg.payload[i].rfid_tag + \"');\"\n}\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1110,
+        "y": 1100,
+        "wires": [
+            [
+                "d7ae720c.a33f2"
+            ]
+        ]
+    },
+    {
+        "id": "38777122.be1766",
+        "type": "function",
+        "z": "785d78a8.5f798",
+        "name": "Remove the incoming rfid tags from the database",
+        "func": "msg.topic = \"DELETE FROM `incoming_rfid_tag`;\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1050,
+        "y": 1140,
+        "wires": [
+            [
+                "572e993d.53d0c"
+            ]
+        ]
+    },
+    {
+        "id": "572e993d.53d0c",
+        "type": "mysql",
+        "z": "785d78a8.5f798",
+        "mydb": "2ccc4c99.d52f64",
+        "name": "Lab Go Database",
+        "x": 1450,
+        "y": 1220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "871c7156.77991",
+        "type": "http in",
+        "z": "785d78a8.5f798",
+        "name": "",
+        "url": "/v1/studentinventories/checkout",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 190,
+        "y": 1180,
+        "wires": [
+            [
+                "4432e9b1.50e97"
+            ]
+        ]
+    },
+    {
+        "id": "4432e9b1.50e97",
+        "type": "function",
+        "z": "785d78a8.5f798",
+        "name": "Get all outgoing rfid tags",
+        "func": "// first store the message to retrieve it later:\nflow.set('outgoing_rfid_message',msg.payload);\n\nmsg.topic = \"SELECT * FROM outgoing_rfid_tag;\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 490,
+        "y": 1180,
+        "wires": [
+            [
+                "d910aedd.608698"
+            ]
+        ]
+    },
+    {
+        "id": "d910aedd.608698",
+        "type": "mysql",
+        "z": "785d78a8.5f798",
+        "mydb": "2ccc4c99.d52f64",
+        "name": "Lab Go Database",
+        "x": 730,
+        "y": 1180,
+        "wires": [
+            [
+                "7d68aabc.b3cec4",
+                "85e96a18.31947"
+            ]
+        ]
+    },
+    {
+        "id": "7d68aabc.b3cec4",
+        "type": "function",
+        "z": "785d78a8.5f798",
+        "name": "Add student_id and timestamps",
+        "func": "// retrieve the original requested message\nvar requested_msg = flow.get('outgoing_rfid_message');\n\nmsg.topic = \"\";\nfor(var i = 0; i < msg.payload.length; i++)\n{\n    msg.topic += \"INSERT IGNORE INTO `user_inventory` (`student_id`, `rfid_tag_id`, `checkout_timestamp`) VALUES ('\" + requested_msg.student_id + \"', (SELECT rfid_tag_id from rfid_tag WHERE rfid_tag= '\" + msg.payload[i].rfid_tag + \"'), NOW());\";\n}\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1110,
+        "y": 1180,
+        "wires": [
+            [
+                "d7ae720c.a33f2"
+            ]
+        ]
+    },
+    {
+        "id": "85e96a18.31947",
+        "type": "function",
+        "z": "785d78a8.5f798",
+        "name": "Remove the outgoing rfid tags from the database",
+        "func": "msg.topic = \"DELETE FROM `outgoing_rfid_tag`;\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1050,
+        "y": 1220,
+        "wires": [
+            [
+                "572e993d.53d0c"
+            ]
+        ]
+    },
+    {
+        "id": "8edfd201.d00eb",
+        "type": "function",
+        "z": "785d78a8.5f798",
+        "name": "Get the last incoming rfid tags",
+        "func": "// first store the message to retrieve it later:\nflow.set('last_incoming_rfid_message',msg.payload);\n\nmsg.topic = \"SELECT * FROM incoming_rfid_tag LIMIT 1;\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 470,
+        "y": 840,
+        "wires": [
+            [
+                "f6dd8801.07452"
+            ]
+        ]
+    },
+    {
+        "id": "f6dd8801.07452",
+        "type": "mysql",
+        "z": "785d78a8.5f798",
+        "mydb": "2ccc4c99.d52f64",
+        "name": "Lab Go Database",
+        "x": 730,
+        "y": 840,
+        "wires": [
+            [
+                "9a5be01f.5cc048",
+                "e353359a.c91f28"
+            ]
+        ]
+    },
+    {
+        "id": "9a5be01f.5cc048",
+        "type": "function",
+        "z": "785d78a8.5f798",
+        "name": "Remove the incoming rfid tags from the database",
+        "func": "msg.topic = \"DELETE FROM `incoming_rfid_tag`;\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1050,
+        "y": 880,
+        "wires": [
+            [
+                "5a877096.a14fa8"
+            ]
+        ]
+    },
+    {
+        "id": "5a877096.a14fa8",
+        "type": "mysql",
+        "z": "785d78a8.5f798",
+        "mydb": "2ccc4c99.d52f64",
+        "name": "Lab Go Database",
+        "x": 1450,
+        "y": 880,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "126bc0b2.6ad47f",
+        "type": "http in",
+        "z": "785d78a8.5f798",
+        "name": "",
+        "url": "/v1/incomingrfidtags",
+        "method": "delete",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 159,
+        "y": 500,
+        "wires": [
+            [
+                "7883decf.da8e1"
+            ]
+        ]
+    },
+    {
+        "id": "7883decf.da8e1",
+        "type": "function",
+        "z": "785d78a8.5f798",
+        "name": "Delete incoming (checking in) rfid tags",
+        "func": "msg.topic = \"DELETE FROM `incoming_rfid_tag`;\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1089,
+        "y": 500,
+        "wires": [
+            [
+                "d7ae720c.a33f2"
+            ]
+        ]
+    },
+    {
+        "id": "d27dd4ed.f2f8a8",
+        "type": "http in",
+        "z": "785d78a8.5f798",
+        "name": "",
+        "url": "/v1/outgoingrfidtags",
+        "method": "delete",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 159,
+        "y": 640,
+        "wires": [
+            [
+                "758a1cc0.64292c"
+            ]
+        ]
+    },
+    {
+        "id": "758a1cc0.64292c",
+        "type": "function",
+        "z": "785d78a8.5f798",
+        "name": "Delete outgoing (checking out) rfid tags",
+        "func": "msg.topic = \"DELETE FROM `outgoing_rfid_tag`;\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1079,
+        "y": 640,
+        "wires": [
+            [
+                "d7ae720c.a33f2"
             ]
         ]
     },
@@ -765,138 +1012,49 @@
         ]
     },
     {
-        "id": "99c6ec7f.c5e42",
-        "type": "mysql",
-        "z": "785d78a8.5f798",
-        "mydb": "2ccc4c99.d52f64",
-        "name": "Lab Go Database",
-        "x": 730,
-        "y": 920,
-        "wires": [
-            [
-                "b2fb33d4.1588e8",
-                "38777122.be1766"
-            ]
-        ]
-    },
-    {
-        "id": "bf8e9cdc.c7b5f8",
-        "type": "function",
-        "z": "785d78a8.5f798",
-        "name": "Get all incoming rfid tags",
-        "func": "// first store the message to retrieve it later:\nflow.set('incoming_rfid_message',msg.payload);\n\nmsg.topic = \"SELECT * FROM incoming_rfid_tag;\";\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 490,
-        "y": 920,
-        "wires": [
-            [
-                "99c6ec7f.c5e42"
-            ]
-        ]
-    },
-    {
-        "id": "b2fb33d4.1588e8",
-        "type": "function",
-        "z": "785d78a8.5f798",
-        "name": "Add student_id and timestamps",
-        "func": "// retrieve the original requested message\nvar requested_msg = flow.get('incoming_rfid_message');\n    \nfor(var i = 0; i < msg.payload.length; i++)\n{\n    msg.topic = \"UPDATE `user_inventory` SET `checkin_timestamp`=NOW() WHERE `student_id`='\"+ requested_msg.student_id + \"' AND rfid_tag_id = '\" + msg.payload[i].rfid_tag_id + \"';\"\n}\n\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 1110,
-        "y": 920,
-        "wires": [
-            [
-                "d7ae720c.a33f2"
-            ]
-        ]
-    },
-    {
-        "id": "38777122.be1766",
-        "type": "function",
-        "z": "785d78a8.5f798",
-        "name": "Remove the incoming rfid tags from the database",
-        "func": "msg.topic = \"DELETE FROM `incoming_rfid_tag`;\";\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 1050,
-        "y": 960,
-        "wires": [
-            [
-                "572e993d.53d0c"
-            ]
-        ]
-    },
-    {
-        "id": "572e993d.53d0c",
-        "type": "mysql",
-        "z": "785d78a8.5f798",
-        "mydb": "2ccc4c99.d52f64",
-        "name": "Lab Go Database",
-        "x": 1390,
-        "y": 1040,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "871c7156.77991",
+        "id": "ccca5912.9ae4f8",
         "type": "http in",
         "z": "785d78a8.5f798",
         "name": "",
-        "url": "/v1/studentinventories/checkout",
-        "method": "post",
+        "url": "/v1/incomingrfidtags",
+        "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 190,
-        "y": 1000,
+        "x": 149,
+        "y": 420,
         "wires": [
             [
-                "4432e9b1.50e97"
+                "834ff08b.2da7d"
             ]
         ]
     },
     {
-        "id": "4432e9b1.50e97",
+        "id": "ba3d3acb.4ecca8",
+        "type": "http in",
+        "z": "785d78a8.5f798",
+        "name": "",
+        "url": "/v1/outgoingrfidtags",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 149,
+        "y": 560,
+        "wires": [
+            [
+                "54b689ae.d5b0d8"
+            ]
+        ]
+    },
+    {
+        "id": "834ff08b.2da7d",
         "type": "function",
         "z": "785d78a8.5f798",
-        "name": "Get all outgoing rfid tags",
-        "func": "// first store the message to retrieve it later:\nflow.set('outgoing_rfid_message',msg.payload);\n\nmsg.topic = \"SELECT * FROM outgoing_rfid_tag;\";\nreturn msg;",
+        "name": "Get the list of incoming (checking in) rfid tags",
+        "func": "msg.topic = \"SELECT * FROM incoming_rfid_tag LIMIT 1000\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 490,
-        "y": 1000,
-        "wires": [
-            [
-                "d910aedd.608698"
-            ]
-        ]
-    },
-    {
-        "id": "d910aedd.608698",
-        "type": "mysql",
-        "z": "785d78a8.5f798",
-        "mydb": "2ccc4c99.d52f64",
-        "name": "Lab Go Database",
-        "x": 730,
-        "y": 1000,
-        "wires": [
-            [
-                "7d68aabc.b3cec4",
-                "85e96a18.31947"
-            ]
-        ]
-    },
-    {
-        "id": "7d68aabc.b3cec4",
-        "type": "function",
-        "z": "785d78a8.5f798",
-        "name": "Add student_id and timestamps",
-        "func": "// retrieve the original requested message\nvar requested_msg = flow.get('outgoing_rfid_message');\n\nmsg.topic = \"\";\nfor(var i = 0; i < msg.payload.length; i++)\n{\n    msg.topic += \"INSERT IGNORE INTO `user_inventory` (`student_id`, `rfid_tag_id`) VALUES ( '\" + requested_msg.student_id + \"', '\" + msg.payload[i].rfid_tag_id + \"');\";\n}\n\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 1110,
-        "y": 1000,
+        "x": 1069,
+        "y": 420,
         "wires": [
             [
                 "d7ae720c.a33f2"
@@ -904,20 +1062,34 @@
         ]
     },
     {
-        "id": "85e96a18.31947",
+        "id": "54b689ae.d5b0d8",
         "type": "function",
         "z": "785d78a8.5f798",
-        "name": "Remove the outgoing rfid tags from the database",
-        "func": "msg.topic = \"DELETE FROM `outgoing_rfid_tag`;\";\nreturn msg;",
+        "name": "Get the list of outgoing (checking out) rfid tags",
+        "func": "msg.topic = \"SELECT * FROM outgoing_rfid_tag LIMIT 1000\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 1050,
-        "y": 1040,
+        "x": 1059,
+        "y": 560,
         "wires": [
             [
-                "572e993d.53d0c"
+                "d7ae720c.a33f2"
             ]
         ]
+    },
+    {
+        "id": "7b9ec1a2.02e51",
+        "type": "debug",
+        "z": "785d78a8.5f798",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1350,
+        "y": 720,
+        "wires": []
     },
     {
         "id": "2ccc4c99.d52f64",

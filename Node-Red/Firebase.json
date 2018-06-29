@@ -1,0 +1,238 @@
+[
+    {
+        "id": "48f9f380.e7726c",
+        "type": "ui_text_input",
+        "z": "47e37d46.6d5354",
+        "name": "",
+        "label": "GTID",
+        "group": "7114f868.d45a28",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "mode": "text",
+        "delay": "0",
+        "topic": "",
+        "x": 170,
+        "y": 131,
+        "wires": [
+            [
+                "58d80d62.810bf4",
+                "fb51739a.48de5"
+            ]
+        ]
+    },
+    {
+        "id": "da58e87f.e17338",
+        "type": "http request",
+        "z": "47e37d46.6d5354",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "url": "https://firestore.googleapis.com/v1beta1/projects/labgoservices/databases/(default)/documents/gtid/{{url}}",
+        "tls": "94955087.acdbf",
+        "x": 930,
+        "y": 231,
+        "wires": [
+            [
+                "f200141a.e939d8"
+            ]
+        ]
+    },
+    {
+        "id": "f200141a.e939d8",
+        "type": "debug",
+        "z": "47e37d46.6d5354",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 1110,
+        "y": 231,
+        "wires": []
+    },
+    {
+        "id": "e027dc3c.901e3",
+        "type": "function",
+        "z": "47e37d46.6d5354",
+        "name": "Create the JSON topic",
+        "func": "var isTa = global.get(\"ta\");\n\nmsg.payload = {\n\t\"fields\": {\n\t    \"identity\": {\n\t\t\t\"booleanValue\": isTa\n\t    }\n\t}\n};\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 360,
+        "y": 231,
+        "wires": [
+            [
+                "6887cb0.6131e34"
+            ]
+        ]
+    },
+    {
+        "id": "6887cb0.6131e34",
+        "type": "json",
+        "z": "47e37d46.6d5354",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 530,
+        "y": 231,
+        "wires": [
+            [
+                "e4af7567.88d818"
+            ]
+        ]
+    },
+    {
+        "id": "58d80d62.810bf4",
+        "type": "function",
+        "z": "47e37d46.6d5354",
+        "name": "Generate URL",
+        "func": "var gtid = msg.payload;\nglobal.set(\"gtid\", gtid);\nvar url = gtid + \":commit\";\nglobal.set(\"url\", url);\nmsg.payload = url;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 340,
+        "y": 131,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4214e5e0.de43dc",
+        "type": "function",
+        "z": "47e37d46.6d5354",
+        "name": "Save Identity",
+        "func": "global.set(\"ta\",msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 330,
+        "y": 171,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bfb71850.a08388",
+        "type": "ui_button",
+        "z": "47e37d46.6d5354",
+        "name": "",
+        "group": "7114f868.d45a28",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "button",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 170,
+        "y": 231,
+        "wires": [
+            [
+                "e027dc3c.901e3"
+            ]
+        ]
+    },
+    {
+        "id": "fb51739a.48de5",
+        "type": "ui_text",
+        "z": "47e37d46.6d5354",
+        "group": "7114f868.d45a28",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "text",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "x": 310,
+        "y": 91,
+        "wires": []
+    },
+    {
+        "id": "e4af7567.88d818",
+        "type": "function",
+        "z": "47e37d46.6d5354",
+        "name": "Create the JSON topic",
+        "func": "msg.url = global.get(\"url\");\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 720,
+        "y": 231,
+        "wires": [
+            [
+                "da58e87f.e17338"
+            ]
+        ]
+    },
+    {
+        "id": "c7ed3b78.386ae8",
+        "type": "ui_dropdown",
+        "z": "47e37d46.6d5354",
+        "name": "",
+        "label": "Identity",
+        "place": "Select option",
+        "group": "7114f868.d45a28",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "options": [
+            {
+                "label": "Student",
+                "value": false,
+                "type": "bool"
+            },
+            {
+                "label": "TA",
+                "value": true,
+                "type": "bool"
+            }
+        ],
+        "payload": "",
+        "topic": "",
+        "x": 160,
+        "y": 171,
+        "wires": [
+            [
+                "4214e5e0.de43dc"
+            ]
+        ]
+    },
+    {
+        "id": "7114f868.d45a28",
+        "type": "ui_group",
+        "z": "",
+        "name": "Change User Identity",
+        "tab": "ebd39a45.201948",
+        "disp": true,
+        "width": "12",
+        "collapse": true
+    },
+    {
+        "id": "94955087.acdbf",
+        "type": "tls-config",
+        "z": "",
+        "name": "",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "",
+        "keyname": "",
+        "caname": "",
+        "verifyservercert": true
+    },
+    {
+        "id": "ebd39a45.201948",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Firebase",
+        "icon": "dashboard",
+        "order": 2
+    }
+]
