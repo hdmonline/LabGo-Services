@@ -13,8 +13,8 @@
         "mode": "text",
         "delay": "0",
         "topic": "",
-        "x": 170,
-        "y": 131,
+        "x": 130,
+        "y": 80,
         "wires": [
             [
                 "58d80d62.810bf4",
@@ -26,43 +26,27 @@
         "id": "da58e87f.e17338",
         "type": "http request",
         "z": "47e37d46.6d5354",
-        "name": "",
+        "name": "Commit Request",
         "method": "POST",
         "ret": "txt",
-        "url": "https://firestore.googleapis.com/v1beta1/projects/labgoservices/databases/(default)/documents/gtid/{{url}}",
-        "tls": "94955087.acdbf",
-        "x": 930,
-        "y": 231,
+        "url": "https://firestore.googleapis.com/v1beta1/projects/labgoservices/databases/(default)/documents:commit",
+        "tls": "",
+        "x": 710,
+        "y": 160,
         "wires": [
-            [
-                "f200141a.e939d8"
-            ]
+            []
         ]
-    },
-    {
-        "id": "f200141a.e939d8",
-        "type": "debug",
-        "z": "47e37d46.6d5354",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "x": 1110,
-        "y": 231,
-        "wires": []
     },
     {
         "id": "e027dc3c.901e3",
         "type": "function",
         "z": "47e37d46.6d5354",
-        "name": "Create the JSON topic",
-        "func": "var isTa = global.get(\"ta\");\n\nmsg.payload = {\n\t\"fields\": {\n\t    \"identity\": {\n\t\t\t\"booleanValue\": isTa\n\t    }\n\t}\n};\n\nreturn msg;",
+        "name": "GTID Payload",
+        "func": "var isTa = global.get(\"ta\");\nvar gtid = global.get(\"gtid\");\n\nmsg.payload = \n{\n\t\"writes\": [{\n\t\t\"updateMask\": {\n\t\t\t\"fieldPaths\": \"ta\"\n\t\t},\n\t\t\"update\": {\n\t\t\t\"name\": \"projects/labgoservices/databases/(default)/documents/gtid/\" + gtid,\n\t\t\t\"fields\": {\n\t\t\t\t\"ta\": {\n\t\t\t\t\t\"booleanValue\": isTa\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}]\n};\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 360,
-        "y": 231,
+        "x": 320,
+        "y": 160,
         "wires": [
             [
                 "6887cb0.6131e34"
@@ -77,11 +61,11 @@
         "property": "payload",
         "action": "obj",
         "pretty": false,
-        "x": 530,
-        "y": 231,
+        "x": 521,
+        "y": 160,
         "wires": [
             [
-                "e4af7567.88d818"
+                "da58e87f.e17338"
             ]
         ]
     },
@@ -89,14 +73,16 @@
         "id": "58d80d62.810bf4",
         "type": "function",
         "z": "47e37d46.6d5354",
-        "name": "Generate URL",
-        "func": "var gtid = msg.payload;\nglobal.set(\"gtid\", gtid);\nvar url = gtid + \":commit\";\nglobal.set(\"url\", url);\nmsg.payload = url;\nreturn msg;",
+        "name": "Get GTID",
+        "func": "var gtid = msg.payload;\nglobal.set(\"gtid\", gtid);\nmsg.payload = gtid;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 340,
-        "y": 131,
+        "x": 300,
+        "y": 80,
         "wires": [
-            []
+            [
+                "4c4bca11.fd0564"
+            ]
         ]
     },
     {
@@ -107,8 +93,8 @@
         "func": "global.set(\"ta\",msg.payload);\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 330,
-        "y": 171,
+        "x": 310,
+        "y": 120,
         "wires": [
             []
         ]
@@ -123,18 +109,19 @@
         "width": 0,
         "height": 0,
         "passthru": false,
-        "label": "button",
+        "label": "Submit",
         "color": "",
         "bgcolor": "",
         "icon": "",
         "payload": "",
         "payloadType": "str",
         "topic": "",
-        "x": 170,
-        "y": 231,
+        "x": 142,
+        "y": 160,
         "wires": [
             [
-                "e027dc3c.901e3"
+                "e027dc3c.901e3",
+                "a74d763.c85bd88"
             ]
         ]
     },
@@ -144,31 +131,15 @@
         "z": "47e37d46.6d5354",
         "group": "7114f868.d45a28",
         "order": 2,
-        "width": 0,
-        "height": 0,
+        "width": "6",
+        "height": "1",
         "name": "",
-        "label": "text",
+        "label": "GTID",
         "format": "{{msg.payload}}",
         "layout": "row-spread",
-        "x": 310,
-        "y": 91,
+        "x": 290,
+        "y": 40,
         "wires": []
-    },
-    {
-        "id": "e4af7567.88d818",
-        "type": "function",
-        "z": "47e37d46.6d5354",
-        "name": "Create the JSON topic",
-        "func": "msg.url = global.get(\"url\");\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 720,
-        "y": 231,
-        "wires": [
-            [
-                "da58e87f.e17338"
-            ]
-        ]
     },
     {
         "id": "c7ed3b78.386ae8",
@@ -179,8 +150,8 @@
         "place": "Select option",
         "group": "7114f868.d45a28",
         "order": 3,
-        "width": 0,
-        "height": 0,
+        "width": "7",
+        "height": "1",
         "passthru": true,
         "options": [
             {
@@ -196,13 +167,216 @@
         ],
         "payload": "",
         "topic": "",
-        "x": 160,
-        "y": 171,
+        "x": 140,
+        "y": 120,
         "wires": [
             [
                 "4214e5e0.de43dc"
             ]
         ]
+    },
+    {
+        "id": "704f44c6.58647c",
+        "type": "http request",
+        "z": "47e37d46.6d5354",
+        "name": "Commit Request",
+        "method": "POST",
+        "ret": "txt",
+        "url": "https://firestore.googleapis.com/v1beta1/projects/labgoservices/databases/(default)/documents:commit",
+        "tls": "",
+        "x": 710,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a74d763.c85bd88",
+        "type": "function",
+        "z": "47e37d46.6d5354",
+        "name": "Users Payload",
+        "func": "var isTa = global.get(\"ta\");\nvar uid = global.get(\"uid\");\n\nmsg.payload = \nmsg.payload = \n{\n\t\"writes\": [{\n\t\t\"updateMask\": {\n\t\t\t\"fieldPaths\": \"ta\"\n\t\t},\n\t\t\"update\": {\n\t\t\t\"name\": \"projects/labgoservices/databases/(default)/documents/users/\" + uid,\n\t\t\t\"fields\": {\n\t\t\t\t\"ta\": {\n\t\t\t\t\t\"booleanValue\": isTa\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}]\n};\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 320,
+        "y": 200,
+        "wires": [
+            [
+                "5326d42b.0b7b5c"
+            ]
+        ]
+    },
+    {
+        "id": "5326d42b.0b7b5c",
+        "type": "json",
+        "z": "47e37d46.6d5354",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 521,
+        "y": 200,
+        "wires": [
+            [
+                "704f44c6.58647c"
+            ]
+        ]
+    },
+    {
+        "id": "4c4bca11.fd0564",
+        "type": "http request",
+        "z": "47e37d46.6d5354",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "url": "https://firestore.googleapis.com/v1beta1/projects/labgoservices/databases/(default)/documents/gtid/{{payload}}",
+        "tls": "",
+        "x": 490,
+        "y": 80,
+        "wires": [
+            [
+                "d0644bae.b42938"
+            ]
+        ]
+    },
+    {
+        "id": "d0644bae.b42938",
+        "type": "json",
+        "z": "47e37d46.6d5354",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 650,
+        "y": 80,
+        "wires": [
+            [
+                "712b69ab.4e9c08"
+            ]
+        ]
+    },
+    {
+        "id": "712b69ab.4e9c08",
+        "type": "function",
+        "z": "47e37d46.6d5354",
+        "name": "Get UID",
+        "func": "var user = msg.payload;\nvar uid = user.fields.uid.stringValue;\nglobal.set(\"uid\", uid);\nmsg.payload = uid;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 800,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f85d00f1.6cfa6",
+        "type": "ui_text_input",
+        "z": "47e37d46.6d5354",
+        "name": "",
+        "label": "GTID",
+        "group": "a12a6dea.5e9fd",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "mode": "text",
+        "delay": "0",
+        "topic": "",
+        "x": 130,
+        "y": 320,
+        "wires": [
+            [
+                "7b2cc7cd.7aeab8",
+                "f2048866.ac5758"
+            ]
+        ]
+    },
+    {
+        "id": "607bbd92.22e134",
+        "type": "http request",
+        "z": "47e37d46.6d5354",
+        "name": "",
+        "method": "DELETE",
+        "ret": "txt",
+        "url": "http://ec2-52-90-6-153.compute-1.amazonaws.com:1880/v1/accounts/{{payload}}",
+        "tls": "",
+        "x": 470,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7b2cc7cd.7aeab8",
+        "type": "function",
+        "z": "47e37d46.6d5354",
+        "name": "Get GTID",
+        "func": "var gtid = msg.payload;\nglobal.set(\"delete_gtid\", gtid);\nmsg.payload = gtid;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 280,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "75ab83ff.1951dc",
+        "type": "ui_button",
+        "z": "47e37d46.6d5354",
+        "name": "",
+        "group": "a12a6dea.5e9fd",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Submit",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 140,
+        "y": 360,
+        "wires": [
+            [
+                "ba93a857.2d7c38"
+            ]
+        ]
+    },
+    {
+        "id": "ba93a857.2d7c38",
+        "type": "function",
+        "z": "47e37d46.6d5354",
+        "name": "GTID Payload",
+        "func": "var gtid = global.get(\"delete_gtid\");\nmsg.payload = gtid;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 300,
+        "y": 360,
+        "wires": [
+            [
+                "607bbd92.22e134"
+            ]
+        ]
+    },
+    {
+        "id": "f2048866.ac5758",
+        "type": "ui_text",
+        "z": "47e37d46.6d5354",
+        "group": "a12a6dea.5e9fd",
+        "order": 2,
+        "width": "6",
+        "height": "1",
+        "name": "",
+        "label": "GTID",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "x": 270,
+        "y": 280,
+        "wires": []
     },
     {
         "id": "7114f868.d45a28",
@@ -215,17 +389,14 @@
         "collapse": true
     },
     {
-        "id": "94955087.acdbf",
-        "type": "tls-config",
+        "id": "a12a6dea.5e9fd",
+        "type": "ui_group",
         "z": "",
-        "name": "",
-        "cert": "",
-        "key": "",
-        "ca": "",
-        "certname": "",
-        "keyname": "",
-        "caname": "",
-        "verifyservercert": true
+        "name": "Delete documents of an account",
+        "tab": "ebd39a45.201948",
+        "disp": true,
+        "width": "12",
+        "collapse": true
     },
     {
         "id": "ebd39a45.201948",

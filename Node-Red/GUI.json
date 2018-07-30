@@ -725,7 +725,7 @@
         "type": "function",
         "z": "afcf7e95.c084d8",
         "name": "Create the JSON topic",
-        "func": "msg.payload = {\"student_id\": \"903152252\"};\nreturn msg;",
+        "func": "msg.payload = {\"student_id\": \"902906758\"};\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 480,
@@ -918,6 +918,77 @@
         ]
     },
     {
+        "id": "4dd8ad30.737b5c",
+        "type": "ui_button",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "group": "9cb9a8e4.1f338",
+        "order": 1,
+        "width": "6",
+        "height": "1",
+        "passthru": false,
+        "label": "Get all student inventories",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 190,
+        "y": 860,
+        "wires": [
+            [
+                "4340d4eb.c14994"
+            ]
+        ]
+    },
+    {
+        "id": "4340d4eb.c14994",
+        "type": "http request",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "url": "http://ec2-52-90-6-153.compute-1.amazonaws.com:1880/v1/studentinventories",
+        "tls": "",
+        "x": 410,
+        "y": 860,
+        "wires": [
+            [
+                "eddf0cf.8eb81f",
+                "21adcd6d.a0543a"
+            ]
+        ]
+    },
+    {
+        "id": "eddf0cf.8eb81f",
+        "type": "json",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 550,
+        "y": 900,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "21adcd6d.a0543a",
+        "type": "debug",
+        "z": "afcf7e95.c084d8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 600,
+        "y": 800,
+        "wires": []
+    },
+    {
         "id": "63d34f49.3e715",
         "type": "ui_group",
         "z": "",
@@ -962,10 +1033,28 @@
         "collapse": true
     },
     {
+        "id": "9cb9a8e4.1f338",
+        "type": "ui_group",
+        "z": "",
+        "name": "Student Inventories Log",
+        "tab": "60b53243.3f46c4",
+        "disp": true,
+        "width": "24",
+        "collapse": false
+    },
+    {
         "id": "1b3e391e.94af97",
         "type": "ui_tab",
         "z": "",
         "name": "Home",
+        "icon": "dashboard",
+        "order": 1
+    },
+    {
+        "id": "60b53243.3f46c4",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Student Inventories",
         "icon": "dashboard"
     }
 ]

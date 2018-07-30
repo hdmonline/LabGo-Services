@@ -5,7 +5,7 @@
         "z": "5f5d85d9.0b5ed4",
         "baseurl": "403a19b8.8d2bb8",
         "evtname": "rfid_tag_check_in",
-        "devid": "34003f000547363339343638",
+        "devid": "24002b000747363339343638",
         "consolelog": false,
         "x": 300,
         "y": 240,
@@ -527,6 +527,7 @@
         "type": "ui_tab",
         "z": "",
         "name": "Home",
-        "icon": "dashboard"
+        "icon": "dashboard",
+        "order": 1
     }
 ]
